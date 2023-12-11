@@ -5,7 +5,7 @@
   "scripts": {
     "fetch": "bun run index.ts",
     "seed": "DRY=0 bunx tsx seed.mts",
-    "postinstall": "bunx prisma migrate reset && bunx snaplet setup && bunx snaplet generate"
+    "postinstall": "bunx prisma migrate reset && bunx snaplet setup && bunx snaplet generate && bun seed"
   },
   "devDependencies": {
     "@snaplet/seed": "^0.76.3",
