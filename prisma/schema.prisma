@@ -1,0 +1,51 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "relationJoins"]
+  binaryTargets   = ["native", "linux-musl"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime? @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt DateTime? @updatedAt @map("updated_at") @db.Timestamp(0)
+  email     String    @unique
+  name      String?
+  products  Product[]
+
+  @@map("users")
+}
+
+model Product {
+  id           Int       @id @default(autoincrement())
+  createdAt    DateTime? @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt    DateTime? @updatedAt @map("updated_at") @db.Timestamp(0)
+  name         String?   @db.VarChar(255)
+  code         String?   @db.VarChar(255)
+  serialNumber String?   @map("serial_number") @db.VarChar(255)
+  userId       Int?
+
+  inspections Inspection[]
+  user        User?        @relation(fields: [userId], references: [id])
+
+  @@map("products")
+}
+
+model Inspection {
+  id              Int       @id @default(autoincrement())
+  createdAt       DateTime? @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt       DateTime? @updatedAt @map("updated_at") @db.Timestamp(0)
+  nameOfInspector String?   @map("name_of_inspector") @db.VarChar(255)
+  passed          Boolean   @default(false)
+  productId       Int?      @map("productId")
+  notes           String?
+
+  product Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  // @@index([productId])
+  @@map("inspections")
+}

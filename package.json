@@ -1,0 +1,22 @@
+{
+  "name": "primsa-relation-joins",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "fetch": "bun run index.ts",
+    "seed": "DRY=0 bunx tsx seed.mts",
+    "postinstall": "bunx prisma migrate reset && bunx snaplet setup && bunx snaplet generate"
+  },
+  "devDependencies": {
+    "@snaplet/seed": "^0.76.3",
+    "bun-types": "latest",
+    "snaplet": "^0.76.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.7.0",
+    "prisma": "^5.7.0"
+  }
+}
